@@ -1,0 +1,41 @@
+# ==== Tasks & Targets====
+target: "3fap-7pqv-prior"
+target_path: "/mnt/SFG-Drug/pro"
+
+# The baseline score used for dual-target reward normalization.
+base_vinadock_score: -7.0
+
+
+trial: 1
+loop_num_nodeExpansion: 82
+simulation_num: 4
+sa_threshold: 5
+rule5: 1
+radical_check: true
+hashimoto_filter: true
+model_name: "model"
+
+# ==== Token-Mol  ====
+
+prior_url: "http://127.0.0.1:26974/prior"
+
+
+prior_protein_path_1: "/root/Token-Mol-main/example/3fap.pkl"
+prior_protein_path_2: "/root/Token-Mol-main/example/7pqv.pkl"
+
+# ==== MCTS Hyperparameter ====
+mcts:
+  expanded_k: 24
+  c_val: 1.3
+  hours: 12
+  diversity_bonus: 0.05
+
+# ==== Docking ====
+docking_num: 12
+score_target: "SCORE.INTER"
+
+# ==== Reward Function Weights ====
+reward:
+  w_docking: 0.70
+  w_qed: 0.20
+  w_sa: 0.10

@@ -1,0 +1,97 @@
+# =========================
+# formal experiment
+# target = 1889 molecules
+# =========================
+
+target_path: /mnt/SFG-Drug/pro
+docking_num: 12
+score_target: "SCORE.INTER"
+base_vinadock_score: -9.0
+
+# ---- save / runtime ----
+save_every_minutes: 2
+simulation_num: 4
+
+target: 3fap-7pqv-contactfrag-prefix
+trial: 1891
+target_total_mols: 1889
+hours_per_seed: 3.5
+
+# ---- prior sampling ----
+prior_temperature: 1.03
+prior_top_k: 28
+prior_top_p: 0.90
+prior_dirichlet_alpha: 0.42
+prior_dirichlet_eps: 0.06
+
+# ---- duplicate handling ----
+skip_dock_if_duplicate: true
+
+# ---- MCTS ----
+mcts:
+  c_val: 1.30
+  expanded_k: 48
+  sim_num: 4
+
+# ---- prefilter ----
+prefilter:
+  qed_min: 0.32
+  sa_max: 5.5
+  lip_max_viol: 1
+  dock_max_per_rollout: 12
+  lipinski_max_viol: 1
+
+# ---- reward ----
+reward:
+  w_docking: 0.90
+  w_qed: 0.07
+  w_sa: 0.03
+  w_lip_penalty: 0.00
+
+
+  w_dock: 0.90
+  w_lip: 0.00
+
+# ---- Token-Mol prior ----
+prior_url: http://127.0.0.1:26974/prior
+prior_protein_path_1: /root/Token-Mol-main/example/3fap.pkl
+prior_protein_path_2: /root/Token-Mol-main/example/7pqv.pkl
+
+# ---- seed control ----
+seed_enable: true
+seed_fragment_mode: prefer
+seed_fragment_prefer_sp3: false
+seed_max_num: 4
+
+seed_scaffolds_no_star_override:
+  - "C=C(F)C(F)=C(C)Nc1ccccc1"
+  - "Fc1ccccc1"
+  - "C=C(F)C(F)=C(C)NC(=O)C"
+  - "CCC(=O)N(C)CNc1ccccc1"
+
+seed_scaffolds_override: []
+seed_scaffolds_smarts_override: []
+
+# ---- chemistry sanity ----
+radical_check: true
+hashimoto_filter: true
+SMOKE_BYPASS_RADICAL: false
+SMOKE_BYPASS_HASHIMOTO: false
+
+# ---- outputs ----
+
+output: /mnt/SFG-Drug/frangement/Contact-guided final set.csv
+seedmap: /mnt/SFG-Drug/frangement/seedmap_contactfrag_prefix.csv
+debug_log: /mnt/SFG-Drug/logs/debug_contactfrag_prefix.log
+
+# ---- docking combine mode ----
+dock_combine_mode: balanced_dual
+dock_k_sum: 0.10
+dock_k_worst: 0.12
+dock_k_imbalance: 0.10
+dock_w_sum: 0.50
+dock_w_worst: 0.60
+dock_w_imbalance: 0.20
+
+base_vina_3fap: -9.0
+base_vina_7pqv: -9.0
