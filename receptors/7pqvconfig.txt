@@ -1,0 +1,17 @@
+# 7PQV AutoDock Vina configuration
+# Ligand path is usually overridden by the docking script.
+
+receptor = receptors/7pqvpro_clean_fix2.pdbqt
+ligand = ligands/example_ligand.pdbqt
+
+center_x = -5.223
+center_y = 67.587
+center_z = 35.180
+
+size_x = 15.144
+size_y = 16.921
+size_z = 10.290
+
+exhaustiveness = 4
+energy_range = 5
+num_modes = 5

@@ -1,0 +1,17 @@
+# 3FAP AutoDock Vina configuration
+# Ligand path is usually overridden by the docking script.
+
+receptor = receptors/3fappro.pdbqt
+ligand = ligands/example_ligand.pdbqt
+
+center_x = -11.655
+center_y = 24.756
+center_z = 33.139
+
+size_x = 37.5
+size_y = 37.5
+size_z = 45.0
+
+exhaustiveness = 4
+energy_range = 5
+num_modes = 5
