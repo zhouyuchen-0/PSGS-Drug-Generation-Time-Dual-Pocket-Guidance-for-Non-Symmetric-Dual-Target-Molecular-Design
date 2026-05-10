@@ -1,9 +1,0 @@
-receptor = E:/learning/code/sbmolgen/SBMolGen-main/utils/1h00_Auto.pdbqt
-ligand = smile.pdbqt
-center_x = -0.286
-center_y = 29.819
-center_z = 21.957
-size_x = 47.25
-size_y = 42.0
-size_z = 47.25
-out = smile_out.pdbqt
