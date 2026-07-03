@@ -1,0 +1,12 @@
+receptor = E:/graduate/meeting/mwx/SFG-Drug-code/SFG-Drug-weizhengli/pro/3ertpro.pdbqt
+ligand = smile.pdbqt
+center_x = 31.575
+center_y = -1.590
+center_z = 25.599
+size_x = 26.448
+size_y = 22.756
+size_z = 26.687
+
+exhaustiveness = 4
+energy_range   = 5
+num_modes      = 5
