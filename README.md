@@ -109,6 +109,35 @@ data/controls_and_ablation/
 
 These folders contain generated-molecule result sets and evaluation data used for reported-result analysis.
 
+### 3.4 Additional structural-transfer receptor assets: CDK6 (5L2I)–ERα (3ERT)
+
+The repository additionally archives the receptor assets used for the 5L2I–3ERT structural-transfer validation on a structurally heterogeneous kinase–nuclear-receptor pair. These files document the target-specific pocket-prior inputs and the fixed AutoDock Vina receptor/grid definitions used for this additional validation setting.
+
+Place the following files in the repository at the stated paths:
+
+```text
+receptors/
+├── 5l2i.pkl
+├── 3ert.pkl
+├── 5l2ipro.pdbqt
+├── 3ertpro.pdbqt
+├── 5l2iconfig.txt
+└── 3ertconfig.txt
+```
+
+| File | Role in the structural-transfer validation |
+|---|---|
+| `receptors/5l2i.pkl` | Precomputed pocket-prior feature input for the cyclin-dependent kinase 6 (CDK6) ATP-binding-pocket context represented by Protein Data Bank (PDB) entry 5L2I. |
+| `receptors/3ert.pkl` | Precomputed pocket-prior feature input for the estrogen receptor alpha (ERα) ligand-binding-domain context represented by PDB entry 3ERT. |
+| `receptors/5l2ipro.pdbqt` | Prepared CDK6 receptor used for fixed-protocol AutoDock Vina docking. |
+| `receptors/3ertpro.pdbqt` | Prepared ERα receptor used for fixed-protocol AutoDock Vina docking. |
+| `receptors/5l2iconfig.txt` | Fixed AutoDock Vina grid configuration for 5L2I. |
+| `receptors/3ertconfig.txt` | Fixed AutoDock Vina grid configuration for 3ERT. |
+
+The 5L2I–3ERT receptor PDBQT files, docking grids, and Vina settings are fixed receptor-side assets for the structural-transfer validation. They are provided to document the additional target contexts and the corresponding fixed docking protocol; they should not be modified after release.
+
+> **Repository scope.** This release provides the receptor-side structural resources used for the 5L2I–3ERT structural-transfer validation, including the precomputed pocket-prior feature inputs, prepared receptor files, and fixed AutoDock Vina grid definitions. Together, these assets document the structural conditioning and fixed receptor/docking protocol used for the additional kinase–nuclear-receptor validation.
+
 ---
 
 ## 4. Running PSGS-Drug generation
@@ -201,6 +230,19 @@ Notes:
 
 The `scripts/` folder contains analysis scripts for reproducing reported result metrics from the supplied CSV files.
 
+**B1/B2 terminology.** `analyze_b1_b2_contact.py` evaluates B1 and B2 as
+single-pocket **conditioning-source asymmetry controls** under the shared
+retrospective two-context docking workflow. B1 denotes **3FAP-only**
+conditioning during generation, and B2 denotes **7PQV-only** conditioning
+during generation. These controls do **not** encode or test a sequential
+first-target/second-target generation order.
+
+### 5.1 Structural-transfer asset scope
+
+For the 5L2I–3ERT validation, the repository provides the receptor-side pocket-prior features, prepared receptor PDBQT files, and fixed AutoDock Vina grid configurations listed in Section 3.4. These files document the additional CDK6–ERα structural contexts used for the reported structural-transfer analysis.
+
+For interpretation of the 5L2I–3ERT validation, the manuscript and Supporting Information, Table S16, report the aggregate five-seed paired endpoints, 95% confidence intervals, and Holm-adjusted inference. The receptor-side assets provided here identify the exact structural contexts and fixed docking definitions used for that reported validation.
+
 Available scripts include:
 
 ```text
@@ -213,7 +255,7 @@ scripts/seed_similarity_scaffold_analysis.py
 scripts/higher_exhaustiveness_redocking.py
 scripts/plip_hotspot_overlap_analysis.py
 scripts/run_plip_for_top20_candidates.py
-scripts/select_balanced_representative.py
+scripts/select_balanced_representatives.py
 ```
 
 Example commands:
@@ -224,7 +266,7 @@ conda activate psgs-core
 python scripts/prior_contact_summary.py
 python scripts/contact_guided_topk_analysis.py
 python scripts/analyze_a1_a2_topk.py
-python scripts/analyze_b1_b2_contact.py
+python scripts/analyze_b1_b2_contact.py --b1_csv data/controls_and_ablation/result_B1_3fap_only_postscreen_7pqv.csv --b2_csv data/controls_and_ablation/result_B2_7pqv_only_postscreen_3fap.csv --contact_csv "data/formal_sets/Contact-guided final set.csv" --out_dir outputs/b1_b2_conditioning_source_asymmetry --topk 50
 python scripts/admet_prior_profile.py
 python scripts/seed_similarity_scaffold_analysis.py
 python scripts/higher_exhaustiveness_redocking.py
@@ -276,11 +318,18 @@ receptors/3fappro.pdbqt
 receptors/7pqvpro_clean_fix2.pdbqt
 receptors/3fapconfig.txt
 receptors/7pqvconfig.txt
+receptors/5l2i.pkl
+receptors/3ert.pkl
+receptors/5l2ipro.pdbqt
+receptors/3ertpro.pdbqt
+receptors/5l2iconfig.txt
+receptors/3ertconfig.txt
 ```
 
-- `3fap.pkl` and `7pqv.pkl` are pocket feature files used by the PSGS pocket-prior service.
-- `3fappro.pdbqt` and `7pqvpro_clean_fix2.pdbqt` are receptor files used for AutoDock Vina docking.
-- `3fapconfig.txt` and `7pqvconfig.txt` define docking-box settings.
+- `3fap.pkl` and `7pqv.pkl` are pocket feature files used by the PSGS pocket-prior service for the primary 7PQV–3FAP study setting.
+- `3fappro.pdbqt` and `7pqvpro_clean_fix2.pdbqt` are receptor files used for primary-study AutoDock Vina docking.
+- `3fapconfig.txt` and `7pqvconfig.txt` define the primary-study docking-box settings.
+- `5l2i.pkl`, `3ert.pkl`, `5l2ipro.pdbqt`, `3ertpro.pdbqt`, `5l2iconfig.txt`, and `3ertconfig.txt` are the receptor-side pocket-prior and fixed-docking assets for the additional 5L2I–3ERT structural-transfer validation.
 
 ---
 
@@ -348,7 +397,7 @@ conda activate psgs-core
 python scripts/prior_contact_summary.py
 python scripts/contact_guided_topk_analysis.py
 python scripts/analyze_a1_a2_topk.py
-python scripts/analyze_b1_b2_contact.py
+python scripts/analyze_b1_b2_contact.py --b1_csv data/controls_and_ablation/result_B1_3fap_only_postscreen_7pqv.csv --b2_csv data/controls_and_ablation/result_B2_7pqv_only_postscreen_3fap.csv --contact_csv "data/formal_sets/Contact-guided final set.csv" --out_dir outputs/b1_b2_conditioning_source_asymmetry --topk 50
 ```
 
 ### 9.2 Generation workflow execution
@@ -386,3 +435,16 @@ For generation workflow testing, first start the PSGS pocket-prior service in `p
 ## 11. Citation
 
 Please cite the associated manuscript when using this repository.
+
+---
+
+## 12. Release checklist for the 5L2I–3ERT structural-transfer receptor assets
+
+Before claiming that the 5L2I–3ERT receptor assets are publicly available, confirm that the repository or its associated GitHub Release contains all of the following:
+
+- [ ] `receptors/5l2i.pkl` and `receptors/3ert.pkl`;
+- [ ] `receptors/5l2ipro.pdbqt` and `receptors/3ertpro.pdbqt`;
+- [ ] `receptors/5l2iconfig.txt` and `receptors/3ertconfig.txt`;
+- [ ] an explicit README statement that these files document the receptor-side structural inputs and fixed docking grids for the 5L2I–3ERT structural-transfer validation.
+
+The primary 7PQV–3FAP assets and the additional 5L2I–3ERT receptor assets should be versioned with the corresponding manuscript revision to avoid ambiguity about the structural and docking protocol used for each reported analysis.
